@@ -1,17 +1,42 @@
 package main
 
 import (
+	"fmt"
+	"github.com/donng/teemo/pkg/setting"
 	"github.com/donng/teemo/router"
+	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
+	"os"
+	"time"
 )
 
-func main() {
-	r := router.InitRouter()
 
+func main() {
+	config := setting.Setting
+
+	setDefaultConfig(config.Project.Debug)
+
+	log.Println(config.Server.ReadTimeout)
+	r := router.InitRouter()
 	s := &http.Server{
-		Addr:         ":8080",
-		Handler:      r,
+		Addr:    fmt.Sprintf(":%d", config.Server.HttpPort),
+		Handler: r,
+		ReadTimeout: time.Duration(config.Server.ReadTimeout) * time.Second,
+		WriteTimeout: time.Duration(config.Server.WriteTimeout) * time.Second,
 	}
 	log.Fatal(s.ListenAndServe())
+}
+
+func setDefaultConfig(debug bool) {
+	if debug {
+		gin.SetMode(gin.DebugMode)
+		return
+	}
+
+	gin.SetMode(gin.ReleaseMode)
+	gin.DisableConsoleColor()
+
+	file, _ := os.Create("runtime/logs/access.log")
+	gin.DefaultWriter = file
 }

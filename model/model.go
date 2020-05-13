@@ -2,8 +2,6 @@ package model
 
 import (
 	"fmt"
-	"log"
-
 	"github.com/donng/teemo/pkg/setting"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
@@ -17,7 +15,6 @@ type Model struct {
 
 func init() {
 	conf := setting.Setting.Mysql
-	log.Println(conf)
 
 	var err error
 	db, err = gorm.Open("mysql", fmt.Sprintf("%s:%s@(%s)/%s", conf.User, conf.Password, conf.Host, conf.DBName))

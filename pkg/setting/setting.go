@@ -2,10 +2,19 @@ package setting
 
 import (
 	"fmt"
-	"io/ioutil"
-
 	"gopkg.in/yaml.v2"
+	"io/ioutil"
 )
+
+type Project struct {
+	Debug bool `yaml:"Debug"`
+}
+
+type Server struct {
+	HttpPort     int `yaml:"HttpPort"`
+	ReadTimeout  int `yaml:"ReadTimeout"`
+	WriteTimeout int `yaml:"WriteTimeout"`
+}
 
 type Mysql struct {
 	User        string `yaml:"User"`
@@ -17,7 +26,9 @@ type Mysql struct {
 }
 
 type Config struct {
-	Mysql Mysql `yaml:"Mysql"`
+	Project Project `yaml:"Project"`
+	Server  Server  `yaml:"Server"`
+	Mysql   Mysql   `yaml:"Mysql"`
 }
 
 var Setting = &Config{}

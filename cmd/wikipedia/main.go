@@ -1,4 +1,4 @@
-package main
+package wikipedia
 
 import (
 	"database/sql"
@@ -18,7 +18,7 @@ type Event struct {
 	Desc string
 }
 
-func main() {
+func Sync() {
 	client := &http.Client{}
 	request, err := http.NewRequest("GET", "https://zh.wikipedia.org", nil)
 	if err != nil {
