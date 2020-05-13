@@ -20,7 +20,7 @@ func init() {
 	log.Println(conf)
 
 	var err error
-	db, err = gorm.Open("mysql", fmt.Sprintf("%s:%s@/%s?charset=utf8mb4&parseTime=True&loc=Local", conf.User, conf.Password, conf.DBName))
+	db, err = gorm.Open("mysql", fmt.Sprintf("%s:%s@(%s)/%s", conf.User, conf.Password, conf.Host, conf.DBName))
 	if err != nil {
 		panic(fmt.Sprintf("connect mysql error, err: %s", err))
 	}

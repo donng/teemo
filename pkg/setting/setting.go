@@ -23,7 +23,7 @@ type Config struct {
 var Setting = &Config{}
 
 func init() {
-	yamlFile, err := ioutil.ReadFile("conf/app.yaml")
+	yamlFile, err := ioutil.ReadFile("conf/env.yaml")
 	if err != nil {
 		panic(fmt.Sprintf("failed to read yaml file, err: %s", err.Error()))
 	}

@@ -1,11 +1,10 @@
-package wikipedia
+package main
 
 import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strings"
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
@@ -19,14 +18,17 @@ type Event struct {
 	Desc string
 }
 
-func Sync() {
+func main() {
 	client := &http.Client{}
 	request, err := http.NewRequest("GET", "https://zh.wikipedia.org", nil)
 	if err != nil {
 		panic(err)
 	}
 	request.Header.Add("accept-language", "zh-CN")
-	resp, _ := client.Do(request)
+	resp, err := client.Do(request)
+	if err != nil {
+		panic(err)
+	}
 	defer resp.Body.Close()
 
 	doc, _ := goquery.NewDocumentFromReader(resp.Body)
@@ -53,10 +55,9 @@ func Sync() {
 	date := time.Now().Format("20060102")
 	newsJson, _ := json.Marshal(todayNews)
 	historyJson, _ := json.Marshal(todayHistory)
-	fmt.Println(strings.Count(string(historyJson), ""))
 
 	dbConf := setting.Setting.Mysql
-	db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@/%s", dbConf.User, dbConf.Password, dbConf.DBName))
+	db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@(%s)/%s", dbConf.User, dbConf.Password, dbConf.Host, dbConf.DBName))
 	if err != nil {
 		panic(fmt.Sprintf("mysql connect error, err: %s", err))
 	}
