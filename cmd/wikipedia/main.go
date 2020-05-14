@@ -5,13 +5,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/donng/teemo/pkg/setting"
 	_ "github.com/go-sql-driver/mysql"
 )
-
 
 type Event struct {
 	Time string
@@ -24,7 +24,8 @@ func Sync() {
 	if err != nil {
 		panic(err)
 	}
-	request.Header.Add("accept-language", "zh-CN")
+	request.Header.Set("accept-language", "zh-CN")
+
 	resp, err := client.Do(request)
 	if err != nil {
 		panic(err)
@@ -34,7 +35,7 @@ func Sync() {
 	doc, _ := goquery.NewDocumentFromReader(resp.Body)
 	// daily news
 	todayNews := doc.Find("#column-itn li").Map(func(i int, s *goquery.Selection) string {
-		return s.Text()
+		return strings.Replace(s.Text(), "（图）", "", 1)
 	})
 
 	var todayHistory []Event
@@ -43,7 +44,7 @@ func Sync() {
 		return s.Text()
 	})
 	descSli := doc.Find("#column-otd dd").Map(func(i int, s *goquery.Selection) string {
-		return s.Text()
+		return strings.Replace(s.Text(), "（图）", "", 1)
 	})
 	for i := 0; i < len(timeSli); i++ {
 		todayHistory = append(todayHistory, Event{

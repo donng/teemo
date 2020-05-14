@@ -1,6 +1,8 @@
 package model
 
-import "encoding/json"
+import (
+	"encoding/json"
+)
 
 type Wikipedia struct {
 	Model
@@ -25,9 +27,10 @@ func GetWikiPediaByDate(date string) (Wiki, error) {
 	var wiki Wiki
 	var rawWiki Wikipedia
 
-	db.Where("date = ?", date).First(&rawWiki)
-	if err = db.Error; err != nil {
-		return Wiki{}, err
+	if db.Where("date = ?", date).First(&rawWiki).RecordNotFound() {
+		return Wiki{
+			date, []string{}, []Event{},
+		}, nil
 	}
 
 	err = json.Unmarshal([]byte(rawWiki.News), &wiki.News)

@@ -8,5 +8,6 @@ require (
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/jinzhu/gorm v1.9.12
 	github.com/robfig/cron/v3 v3.0.0 // indirect
+	golang.org/x/net v0.0.0-20200513185701-a91f0712d120
 	gopkg.in/yaml.v2 v2.3.0
 )
