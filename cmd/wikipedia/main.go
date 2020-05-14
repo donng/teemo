@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"net/url"
 	"strings"
 	"time"
 
@@ -19,7 +20,17 @@ type Event struct {
 }
 
 func Sync() {
-	client := &http.Client{}
+	proxyAddr := fmt.Sprintf("%s:%d", setting.Setting.Proxy.Host, setting.Setting.Proxy.Port)
+	proxy, err := url.Parse(proxyAddr)
+	if err != nil {
+		panic(err)
+	}
+	transport := &http.Transport{
+		Proxy: http.ProxyURL(proxy),
+	}
+	client := &http.Client{
+		Transport: transport,
+	}
 	request, err := http.NewRequest("GET", "https://zh.wikipedia.org", nil)
 	if err != nil {
 		panic(err)

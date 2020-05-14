@@ -25,10 +25,16 @@ type Mysql struct {
 	TablePrefix string `yaml:"TablePrefix"`
 }
 
+type Proxy struct {
+	Host string `yaml:"Host"`
+	Port int    `yaml:"Port"`
+}
+
 type Config struct {
 	Project Project `yaml:"Project"`
 	Server  Server  `yaml:"Server"`
 	Mysql   Mysql   `yaml:"Mysql"`
+	Proxy   Proxy   `yaml:"Proxy"`
 }
 
 var Setting = &Config{}
