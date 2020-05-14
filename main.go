@@ -11,7 +11,6 @@ import (
 	"time"
 )
 
-
 func main() {
 	config := setting.Setting
 
@@ -20,9 +19,9 @@ func main() {
 	log.Println(config.Server.ReadTimeout)
 	r := router.InitRouter()
 	s := &http.Server{
-		Addr:    fmt.Sprintf(":%d", config.Server.HttpPort),
-		Handler: r,
-		ReadTimeout: time.Duration(config.Server.ReadTimeout) * time.Second,
+		Addr:         fmt.Sprintf(":%d", config.Server.HttpPort),
+		Handler:      r,
+		ReadTimeout:  time.Duration(config.Server.ReadTimeout) * time.Second,
 		WriteTimeout: time.Duration(config.Server.WriteTimeout) * time.Second,
 	}
 	log.Fatal(s.ListenAndServe())
