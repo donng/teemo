@@ -2,19 +2,19 @@ package main
 
 import (
 	"fmt"
+	"github.com/donng/teemo/pkg/logging"
 	"github.com/donng/teemo/pkg/setting"
 	"github.com/donng/teemo/router"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
-	"os"
 	"time"
 )
 
 func main() {
 	config := setting.Setting
 
-	setDefaultConfig(config.Project.Debug)
+	setDefaultConfig(config.App.Debug)
 
 	log.Println(config.Server.ReadTimeout)
 	r := router.InitRouter()
@@ -36,6 +36,5 @@ func setDefaultConfig(debug bool) {
 	gin.SetMode(gin.ReleaseMode)
 	gin.DisableConsoleColor()
 
-	file, _ := os.Create("runtime/logs/access.log")
-	gin.DefaultWriter = file
+	gin.DefaultWriter = logging.GetLogFile()
 }

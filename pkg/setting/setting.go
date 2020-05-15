@@ -6,8 +6,10 @@ import (
 	"io/ioutil"
 )
 
-type Project struct {
-	Debug bool `yaml:"Debug"`
+type App struct {
+	Debug         bool   `yaml:"Debug"`
+	LogPath       string `yaml:"LogPath"`
+	LogTimeFormat string `yaml:"LogTimeFormat"`
 }
 
 type Server struct {
@@ -31,10 +33,10 @@ type Proxy struct {
 }
 
 type Config struct {
-	Project Project `yaml:"Project"`
-	Server  Server  `yaml:"Server"`
-	Mysql   Mysql   `yaml:"Mysql"`
-	Proxy   Proxy   `yaml:"Proxy"`
+	App    App    `yaml:"App"`
+	Server Server `yaml:"Server"`
+	Mysql  Mysql  `yaml:"Mysql"`
+	Proxy  Proxy  `yaml:"Proxy"`
 }
 
 var Setting = &Config{}

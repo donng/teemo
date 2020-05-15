@@ -20,13 +20,14 @@ type Event struct {
 }
 
 func Sync() {
-	proxyAddr := fmt.Sprintf("%s:%d", setting.Setting.Proxy.Host, setting.Setting.Proxy.Port)
+	proxyAddr := fmt.Sprintf("http://%s:%d", setting.Setting.Proxy.Host, setting.Setting.Proxy.Port)
 	proxy, err := url.Parse(proxyAddr)
 	if err != nil {
 		panic(err)
 	}
 	transport := &http.Transport{
 		Proxy: http.ProxyURL(proxy),
+		ResponseHeaderTimeout: 10 * time.Second,
 	}
 	client := &http.Client{
 		Transport: transport,
