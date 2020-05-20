@@ -3,9 +3,18 @@ package logging
 import (
 	"fmt"
 	"github.com/donng/teemo/pkg/setting"
+	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
 	"os"
 	"time"
 )
+
+func GetAccessWriter() *rotatelogs.RotateLogs {
+	logf, err := rotatelogs.New("runtime/logs/access_%Y%m%d.log")
+	if err != nil {
+		panic(err)
+	}
+	return logf
+}
 
 func GetLogFilePath() string {
 	if setting.Setting.App.LogPath != "" {
@@ -21,9 +30,7 @@ func GetLogFileName() string {
 }
 
 func GetLogFile() *os.File {
-	logFile := fmt.Sprintf("%s/%s", GetLogFilePath(), GetLogFileName())
-
-	file, err := os.OpenFile(logFile, os.O_CREATE|os.O_APPEND|os.O_RDWR, 0744)
+	file, err := os.OpenFile("runtime/logs/access.log", os.O_CREATE|os.O_APPEND|os.O_RDWR, 0744)
 	if err != nil {
 		Logger.Panicf("error open log file, err: %s", err)
 	}

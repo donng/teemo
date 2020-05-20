@@ -50,7 +50,7 @@ func getEncoder() zapcore.Encoder {
 
 func getWriter(filename string) io.Writer {
 	hook, err := rotatelogs.New(
-		strings.Replace(filename, ".log", "_%y%m%d.log", 1),
+		strings.Replace(filename, ".log", "_%Y%m%d.log", 1),
 	)
 	if err != nil {
 		log.Fatalf("error getWriter err: %s", err)

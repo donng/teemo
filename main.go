@@ -34,5 +34,5 @@ func setDefaultConfig(debug bool) {
 
 	gin.SetMode(gin.ReleaseMode)
 	gin.DisableConsoleColor()
-	gin.DefaultWriter = logging.GetLogFile()
+	gin.DefaultWriter = logging.GetAccessWriter()
 }
