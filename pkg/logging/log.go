@@ -23,13 +23,7 @@ func GetLogFileName() string {
 func GetLogFile() *os.File {
 	logFile := fmt.Sprintf("%s/%s", GetLogFilePath(), GetLogFileName())
 
-	var file *os.File
-	_, err := os.Stat(logFile)
-	if os.IsNotExist(err) {
-		file, _ = os.Create(logFile)
-	} else {
-		file, _ = os.Open(logFile)
-	}
+	file, _ := os.OpenFile(logFile, os.O_CREATE|os.O_APPEND|os.O_RDWR, 0744)
 
 	return file
 }

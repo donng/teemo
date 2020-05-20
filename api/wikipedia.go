@@ -2,6 +2,7 @@ package api
 
 import (
 	"fmt"
+	"github.com/donng/teemo/pkg/logging"
 	"net/http"
 	"time"
 
@@ -21,6 +22,8 @@ func GetWikiPedia(c *gin.Context) {
 		})
 		panic(fmt.Sprintf("get wikipedia error, err: %s", err))
 	}
+
+	logging.Logger.Infof("wikipedia data: %v", wiki)
 
 	c.JSON(http.StatusOK, gin.H{
 		"code": 0,

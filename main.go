@@ -16,7 +16,6 @@ func main() {
 
 	setDefaultConfig(config.App.Debug)
 
-	log.Println(config.Server.ReadTimeout)
 	r := router.InitRouter()
 	s := &http.Server{
 		Addr:         fmt.Sprintf(":%d", config.Server.HttpPort),
@@ -35,6 +34,5 @@ func setDefaultConfig(debug bool) {
 
 	gin.SetMode(gin.ReleaseMode)
 	gin.DisableConsoleColor()
-
 	gin.DefaultWriter = logging.GetLogFile()
 }
